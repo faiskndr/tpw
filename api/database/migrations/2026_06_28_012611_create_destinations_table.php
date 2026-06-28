@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name', 150);
             $table->string('province', 100);
             $table->text('description');
-            $table->string('image', 255)->nullable();
+            $table->string('image_url', 255)->nullable();
             $table->timestamps();
         });
     }

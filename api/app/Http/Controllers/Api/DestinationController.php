@@ -3,47 +3,43 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Destination;
 use Illuminate\Http\Request;
 
 class DestinationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(Destination::all());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:150',
+            'province' => 'required|string|max:100',
+            'description' => 'required',
+            'image_url' => 'nullable|string',
+        ]);
+
+        $destination = Destination::create($request->all());
+        return response()->json($destination, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Destination $destination)
     {
-        //
+        return response()->json($destination);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Destination $destination)
     {
-        //
+        $destination->update($request->all());
+        return response()->json($destination);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Destination $destination)
     {
-        //
+        $destination->delete();
+        return response()->json(['message' => 'Destination berhasil dihapus.']);
     }
 }
