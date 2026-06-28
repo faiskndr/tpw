@@ -3,39 +3,34 @@ import { ref, computed, type Component } from 'vue'
 import HelloWorld from './components/HelloWorld.vue'
 import TheWelcome from './components/TheWelcome.vue'
 import Explore from './pages/Explore.vue'
+import { RouterView } from 'vue-router'
 
 interface Route {
   component: Component
   props?: Record<string, unknown>
 }
 
-const routes: Record<string, Route> = {
-  '/': {
-    component:Explore,
-  },
-  // '/welcome': {
-  //   component:TheWelcome
-  // },
-  // '/explore':{
-  //   component:Explore
-  // }
-}
+// const routes: Record<string, Route> = {
+//   '/': {
+//     component:Explore,
+//   },
+// }
 
 
-const currentPath = ref<string>(window.location.hash)
+// const currentPath = ref<string>(window.location.hash)
 
-window.addEventListener('hashchange', () => {
-  currentPath.value = window.location.hash
-})
+// window.addEventListener('hashchange', () => {
+//   currentPath.value = window.location.hash
+// })
 
-const currentView = computed(() => {
-  return routes[currentPath.value.slice(1) || '/']
-})
+// const currentView = computed(() => {
+//   return routes[currentPath.value.slice(1) || '/']
+// })
 </script>
 
 <template>
-  <a href="#/"></a>
-  <component :is="currentView?.component" v-bind="currentView?.props" />
+  <router-view></router-view>
+  <!-- <component :is="currentView?.component" v-bind="currentView?.props" /> -->
 </template>
 
 <style scoped>
