@@ -40,10 +40,11 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
+    
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
+            dd("invalid");
             throw ValidationException::withMessages([
                 'email' => ['Email atau password salah.'],
             ]);

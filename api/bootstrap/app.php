@@ -3,6 +3,10 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
+
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -15,5 +19,19 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->shouldRenderJsonWhen(function (Request $request, Throwable $e) {
+            return true;
+        });
+
+        $exceptions->respond(function (Response $response, Throwable $exception, Request $request) {
+            if ($exception instanceof ValidationException) {
+                return response()->json([
+                    'code' => 422,
+                    'message' => 'The provided data failed validation checks.',
+                    'validation_errors' => $exception->errors(),
+                ], 422);
+            }
+
+            return $response;
+        });
     })->create();
