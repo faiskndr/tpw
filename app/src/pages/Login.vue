@@ -5,7 +5,6 @@ import { useAuthStore } from "@/stores/auth";
 import ErrorAlert from "@/components/ErrorAlert.vue";
 import {
   Mountain,
-  AlertCircle,
   Eye,
   EyeOff,
 } from "lucide-vue-next";

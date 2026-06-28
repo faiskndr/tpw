@@ -4,6 +4,7 @@ import { useAuthStore } from "@/stores/auth";
 import Login from "@/pages/Login.vue";
 import Dashboard from "@/pages/Dashboard.vue";
 import Explore from "@/pages/Explore.vue";
+import AdminShell from "@/pages/AdminShell.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -21,7 +22,7 @@ const router = createRouter({
     {
       path: "/dashboard",
       name: "dashboard",
-      component: Dashboard,
+      component: AdminShell,
       meta: {
         requiresAuth: true,
       },
