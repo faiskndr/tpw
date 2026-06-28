@@ -1,20 +1,41 @@
 <script setup lang="ts">
+import { ref, computed, type Component } from 'vue'
 import HelloWorld from './components/HelloWorld.vue'
 import TheWelcome from './components/TheWelcome.vue'
+import Explore from './pages/Explore.vue'
+
+interface Route {
+  component: Component
+  props?: Record<string, unknown>
+}
+
+const routes: Record<string, Route> = {
+  '/': {
+    component:Explore,
+  },
+  // '/welcome': {
+  //   component:TheWelcome
+  // },
+  // '/explore':{
+  //   component:Explore
+  // }
+}
+
+
+const currentPath = ref<string>(window.location.hash)
+
+window.addEventListener('hashchange', () => {
+  currentPath.value = window.location.hash
+})
+
+const currentView = computed(() => {
+  return routes[currentPath.value.slice(1) || '/']
+})
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <a href="#/"></a>
+  <component :is="currentView?.component" v-bind="currentView?.props" />
 </template>
 
 <style scoped>
