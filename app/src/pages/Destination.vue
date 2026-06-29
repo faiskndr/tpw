@@ -7,7 +7,7 @@
           Destinations
         </h1>
         <p class="text-sm text-gray-500 mt-0.5">
-          {{ rows.length }} total destinasi
+          {{ destinations.length }} total destinasi
         </p>
       </div>
 
@@ -70,7 +70,7 @@
             </tr>
 
             <tr
-              v-for="r in filtered"
+              v-for="r in destinations"
               :key="r.id"
               class="hover:bg-gray-50/50 transition-colors"
             >
@@ -200,8 +200,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
-
+import { ref, computed, onMounted } from "vue";
+import { storeToRefs } from "pinia";
 import { Plus, Search, Pencil, Trash2 } from "lucide-vue-next";
 
 import Modal from "@/components/ui/Modal.vue";
@@ -210,8 +210,17 @@ import DeleteConfirm from "@/components/ui/DeleteConfirm.vue";
 
 import { seedDestinations } from "@/data/destinations";
 import type { Destination } from "@/types/destination";
+import { useDestinationStore } from "@/stores/destinations";
 
 type DestinationForm = Omit<Destination, "id">;
+
+const destinationStore = useDestinationStore();
+
+const { destinations, loading, error } = storeToRefs(destinationStore);
+
+onMounted(() => {
+  destinationStore.fetchDestinations();
+});
 
 const blank: DestinationForm = {
   name: "",
