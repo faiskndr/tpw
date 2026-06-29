@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Destination;
 use Illuminate\Http\Request;
@@ -10,7 +11,7 @@ class DestinationController extends Controller
 {
     public function index()
     {
-        return response()->json(Destination::all());
+        return ResponseHelper::SuccessResponse(Destination::all(), "Success get destionations");
     }
 
     public function store(Request $request)
