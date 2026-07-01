@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Models\TourSchedule;
 use Illuminate\Http\Request;
@@ -13,7 +14,9 @@ class TourScheduleController extends Controller
      */
     public function index()
     {
-        return response()->json(TourSchedule::with(['tourPackage'])->get());
+        $data = TourSchedule::with(['tourPackage.packageImageCover'])->get()->toResourceCollection();
+        
+        return ResponseHelper::SuccessResponse($data, "success get tour schedules data");
     }
 
     /**

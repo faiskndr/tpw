@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Models\TourPackage;
 use Illuminate\Http\Request;
@@ -13,7 +14,13 @@ class TourPackageController extends Controller
      */
     public function index()
     {
-        return response()->json(TourPackage::with(['destination', 'packageImages'])->get());
+        $data = TourPackage::with(['destination', 'packageImages'])->get();
+
+        foreach ($data as $key => $v) {
+            $v['type_formatted'] = ucwords(str_replace("_", " ", $v['type']));
+        }
+
+        return ResponseHelper::SuccessResponse($data, "success get tour data");
     }
 
     /**

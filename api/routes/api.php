@@ -26,3 +26,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('tour-schedules', TourScheduleController::class);
     Route::apiResource('about-contents', AboutContentController::class);
 });
+
+Route::prefix('public')->group(function () {
+    Route::get('tour-packages', [TourPackageController::class, 'index']);
+    Route::get('destinations', [DestinationController::class, 'index']);
+    Route::get('tour-schedules', [TourScheduleController::class, 'index']);
+});
+
