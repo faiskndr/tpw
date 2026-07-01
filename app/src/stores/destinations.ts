@@ -43,3 +43,36 @@ export const useDestinationStore = defineStore("destination", {
     },
   },
 });
+
+export const usePublicDestinationStore = defineStore("publicDestination", {
+  state: (): DestinationState => ({
+    destinations: [],
+    loading: false,
+    error: null,
+  }),
+
+  actions: {
+    async fetchDestinations() {
+      this.loading = true;
+      this.error = null;
+
+      try {
+        const { data } = await api.get<ApiResponse<Destination[]>>(
+          "public/destinations"
+        );
+
+        this.destinations = data.data;
+
+        return data.data;
+      } catch (error: any) {
+        if (axios.isAxiosError<ApiError>(error)) {
+          this.error = error.response?.data.message ?? "Unknown error";
+        }
+
+        throw error;
+      } finally {
+        this.loading = false;
+      }
+    },
+  },
+});
