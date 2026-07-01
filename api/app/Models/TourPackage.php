@@ -32,4 +32,9 @@ class TourPackage extends Model
     {
         return $this->hasMany(PackageImage::class);
     }
+
+    public function packageImageCover()
+    {
+        return $this->hasOne(PackageImage::class)->where('is_cover', 1);
+    }
 }

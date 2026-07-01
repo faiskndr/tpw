@@ -17,4 +17,9 @@ class TourSchedule extends Model
     {
         return $this->belongsTo(TourPackage::class);
     }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class)->where('status', 'confirmed');
+    }
 }

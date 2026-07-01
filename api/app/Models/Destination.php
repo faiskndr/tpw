@@ -10,6 +10,7 @@ class Destination extends Model
         'name',
         'province',
         'description',
+        'type',
         'image_url'
     ];
 
